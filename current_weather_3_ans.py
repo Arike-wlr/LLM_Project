@@ -92,7 +92,7 @@ def call_with_messages():
     """输入prompt，并三轮调取大模型获得最终回复"""
     messages = [
         {
-            "content": input('请输入你的问题：'),  # 提问示例："现在几点了？" "一个小时后几点" "北京天气如何？"
+            "content": input('请输入您的问题：'),  # 提问示例："现在几点了？" "一个小时后几点" "北京天气如何？"
             "role": "user"
         }
     ]
@@ -124,11 +124,11 @@ def call_with_messages():
         #进行第二轮调用
         second_response = get_response(messages)
         print(f"第二轮调用结果：{second_response}")
-        print(f"结合专业天气数据的答案：{second_response['output']['choices'][0]['message']['content']}")
+        print(f"结合专业天气数据的答案：{tool_info['content']}")
 
         #搭建第三轮调用的message
         third_quary = {
-            'content': f'现在请结合当地当前的天气状况，回答user的提问，可根据天气状况适当给出建议：{second_response['output']['choices'][0]['message']['content']}',
+            'content': f'现在请结合当地当前的天气状况，回答user的提问，可根据天气状况适当给出可行的建议：{second_response['output']['choices'][0]['message']['content']}',
             'role': 'system'}
         messages.append(third_quary)
 

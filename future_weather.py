@@ -4,6 +4,8 @@ from datetime import datetime
 import json
 from dotenv import load_dotenv
 
+"""免费版可以调取未来三天的天气情况，有时间尝试一下，就直接给出精简版的了"""
+
 tools = [
     {
         "type": "function",
@@ -17,8 +19,8 @@ tools = [
         "type": "function",
         "function": {
             "name": "get_weather",
-            "description": "当你想查询指定城市的天气时非常有用。",
-            "parameters": {  # 查询天气时需要提供位置，因此参数设置为location
+            "description": "当你想查询指定城市指定未来时间的天气时非常有用。",
+            "parameters": {
                 "type": "object",
                 "properties": {
                     "location": {
