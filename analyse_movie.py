@@ -3,6 +3,8 @@ import json
 import requests
 from dotenv import load_dotenv
 
+'''只能一次分析一部电影，暂时不能比较分析。'''
+
 tools=[
     {
         "type":"function",
@@ -50,7 +52,7 @@ def get_movie_info(movie_name):
             break
     if mark!=0:
         return info
-    else: return "数据库中暂无相关电影，请根据你目前拥有的的知识回答"
+    else: return "数据库中暂无相关电影，请根据你目前拥有的的知识回答,或提示用户暂无此电影的信息。"
 
 def get_short_comments(movie_name):
     mark = 0
@@ -61,7 +63,7 @@ def get_short_comments(movie_name):
             mark = i+1
             break
     if mark==0:
-        return "数据库中暂无相关电影，请根据你目前拥有的的知识回答"
+        return "数据库中暂无相关电影和短评，请根据你目前拥有的的知识回答，或提示用户暂无此电影的信息。"
     else:
         with open(f"short_comments/comments{mark + 1}.json", "r", encoding="utf-8") as f:
             info1 = json.load(f)
