@@ -14,7 +14,7 @@ tools=[
             "properties": {
                 "symbol": {
                     "type": "string",
-                    "description": "股票代码，例如AAPL、IBM等"
+                    "description": "（必填）股票代码，例如AAPL、IBM、TSLA等。如果用户未提供，请提示用户输入。"
                 },
                 "date": {
                         "type": "string",
@@ -85,12 +85,12 @@ def call_with_messages():
         }
     ]
     first_response = get_response(messages)
-    print(first_response)
+    #print(first_response)
     assistant_output = first_response['output']['choices'][0]['message']
     messages.append(assistant_output)
 
     if 'tool_calls' not in assistant_output:
-        print(f"回复：{assistant_output['content']}")
+        print(f"最终回复：{assistant_output['content']}")
         return
 
     elif 'tool_calls' in assistant_output:
@@ -111,7 +111,7 @@ def call_with_messages():
                        'role': 'system'}
             messages.append(user_prompt)
             second_response = get_response(messages)
-            print(second_response)
+            #print(second_response)
             print(f"最终回复：{second_response['output']['choices'][0]['message']['content']}")
 
 if __name__ == '__main__':

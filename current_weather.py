@@ -24,7 +24,7 @@ def call_with_messages():
         location = cw3a.json.loads(assistant_output['tool_calls'][0]['function']['arguments'])['location']
         tool_info['content'] = cw3a.get_weather_info(location)
         messages.append(tool_info)
-        user_prompt={'content':"现在请结合当地当前的天气状况，回答user之前的提问,可适当给出可行的建议",'role':'user'}
+        user_prompt={'content':"现在请结合当地当前的天气状况，回答user之前的提问,可适当给出可行的建议，无需再次调用工具。",'role':'system'}
         messages.append(user_prompt)
 
     elif assistant_output['tool_calls'][0]['function']['name'] == 'get_current_time':
