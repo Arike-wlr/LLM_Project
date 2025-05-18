@@ -26,7 +26,7 @@ tools = [
                 "properties": {
                     "location": {
                         "type": "string",
-                        "description": "城市或县区，比如北京市、杭州市、余杭区等。"
+                        "description": "城市或县区，比如北京市、杭州市、余杭区等。但主要是城市，xx市后面不用跟xx区。"
                     }
                 }
             },

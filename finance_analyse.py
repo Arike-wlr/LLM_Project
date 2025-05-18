@@ -105,7 +105,6 @@ def call_with_messages():
                 "role": "tool",
                 "content": json.dumps(stock_data)
             }
-            print(tool_info)
             messages.append(tool_info)
             user_prompt = {'content': "你是个金融和股票方面的专家，有着强大的股票分析能力，现在请结合股票信息，回答user之前的提问，无需再次调用工具。",
                        'role': 'system'}
