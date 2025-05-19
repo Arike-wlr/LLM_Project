@@ -37,7 +37,7 @@ tools=[
                         "type": "string",
                         "description": "包含自变量的数学表达式，如x**2、exp(x)等等",
                     },
-                    "varibles":{
+                    "variables":{
                         "type": "string",
                         "description": "表达式里涉及的自变量，如x，a等等",
                     },
@@ -111,7 +111,6 @@ def calculate(expression: str) -> str:
 def calculus(expr_str: str, operation: str, var: str):
     """积分/极限/导数计算"""
     try:
-        expr = parse_expr(expr_str)
         x = symbols(var)
         expr = parse_expr(expr_str)
 
@@ -200,9 +199,9 @@ def call_with_messages():
         elif tool_call['function']['name'] == 'mathmatics_analyser':
             args = json.loads(tool_call['function']['arguments'])
             expression = args.get('expression')
-            varibles = args.get('varibles')
+            variables = args.get('variables')
             operation = args.get('operation')
-            cal_result =calculus(expression, operation, varibles)
+            cal_result =calculus(expression, operation, variables)
             tool_info = {
                 "name": "mathmatics_analyser",
                 "role": "tool",

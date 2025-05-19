@@ -59,8 +59,7 @@ def call_with_messages():
         user_prompt={'content':"你是一个天气方面的专家，现在请结合当地当前的天气状况，回答user之前的提问,可适当给出可行的建议，无需再次调用工具。",'role':'system'}
 
     elif assistant_output['tool_calls'][0]['function']['name'] == 'get_current_time':
-        tool_info = {"name": "get_current_time", "role": "tool"}
-        tool_info['content'] = current_weather_3_ans.get_current_time()
+        tool_info = {"name": "get_current_time", "role": "tool", 'content': current_weather_3_ans.get_current_time()}
         messages.append(tool_info)
         user_prompt={'content':"请根据工具输出回答user之前的提问",'role':'system'}
 
@@ -77,6 +76,16 @@ def call_with_messages():
         tool_info['content'] = str(analyse_movie.get_short_comments(movie_name))
         messages.append(tool_info)
         user_prompt={'content':"你对电影的影评有着深刻的见解，现在请结合电影短评，回答user之前的提问,无需再次调用工具。",'role':'system'}
+
+    elif assistant_output['tool_calls'][0]['function']['name'] == 'analyse_movies_mul':
+        tool_info = {"name": "analyse_movies", "role": "tool"}
+        movies_name = analyse_movies.json.loads(assistant_output['tool_calls'][0]['function']['arguments'])['movies_name']
+        tool_info['content'] = str(analyse_movies.get_movies(movies_name))
+        print(tool_info['content'])
+        messages.append(tool_info)
+        user_prompt = {
+            'content': "你对电影有着深入的了解和深刻的见解，现在请结合电影信息，回答user之前的提问,无需再次调用工具。",
+            'role': 'system'}
 
     elif 'tool_calls' in assistant_output:
         tool_call = assistant_output['tool_calls'][0]
@@ -111,9 +120,9 @@ def call_with_messages():
         elif tool_call['function']['name'] == 'mathmatics_analyser':
             args = mathematics.json.loads(tool_call['function']['arguments'])
             expression = args.get('expression')
-            varibles = args.get('varibles')
+            variables = args.get('variables')
             operation = args.get('operation')
-            cal_result =mathematics.calculus(expression, operation, varibles)
+            cal_result =mathematics.calculus(expression, operation, variables)
             tool_info = {
                 "name": "mathmatics_analyser",
                 "role": "tool",

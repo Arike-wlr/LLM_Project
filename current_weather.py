@@ -5,7 +5,7 @@ def call_with_messages():
     其中将三轮调取简化为两轮"""
     messages = [
         {
-            "content": input('请输入您的问题：'),  # 提问示例："现在几点了？" "一个小时后几点" "北京天气如何？"
+            "content": input('请输入您的问题：'),
             "role": "user"
         }
     ]
