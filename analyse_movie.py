@@ -8,13 +8,13 @@ tools=[
         "type":"function",
         "function":{
             "name":"analyse_movies",
-            "description":"当你想要综合比较分析几部电影的时候非常有用。",
+            "description":"当你想要分析某一部电影或综合比较分析几部电影的基本信息的时候非常有用。",
             "parameters":{
                 "type":"object",
                 "properties": {
                     "movies_name":{
                         "type":"list",
-                        "description":"列表元素为多个电影的名称，如肖申克的救赎、霸王别姬等，每个名称为一个电影。若用户的输入中没有提到电影名称，就填入None"
+                        "description":"列表元素为一个或多个电影的名称，如肖申克的救赎、霸王别姬等，每个名称为一个电影。若用户的输入中没有提到电影名称，就填入None"
                     }
                 }
             },
