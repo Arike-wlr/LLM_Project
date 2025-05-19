@@ -68,7 +68,7 @@ tools=[
                     },
                     "operation":{
                         "type": "string",
-                        "description": "需要对矩阵进行的操作，求逆'inv' 求行列式'det' or 两个矩阵相乘'dot'",
+                        "description": "需要对矩阵进行的操作，求逆'inv' 求行列式'determinant' or 两个矩阵相乘'dot'",
                     }
                 },
                 "required": ["first_matrix","operation"]
@@ -131,19 +131,21 @@ def calculus(expr_str: str, operation: str, var: str):
         return f"计算错误：{str(e)}"
 
 def matrix_operation(matrixf: str, operation: str, matrixs=None ):
-   try:
-        matrix_1 = np.array(eval(matrixf))
-        matrix_2 = np.array(eval(matrixs))
-        if operation == "inv":
-            res= np.linalg.inv(matrix_1)
-        elif operation == "det":
-            res=np.linalg.det(matrix_1)
-        elif operation == "dot":
-            res= matrix_1 @ matrix_2
-        return f"计算结果:{res}"
-
-   except Exception as e:
-       return f"矩阵运算错误：{str(e)}"
+    try:
+        matrix_1 = np.array(eval(matrixf), dtype=float)
+        if operation in ["dot", "inv", "determinant"]:
+            if operation == "inv":
+                res = np.linalg.inv(matrix_1)
+            elif operation == "determinant":
+                res = np.linalg.det(matrix_1)
+            elif operation == "dot":
+                matrix_2 = np.array(eval(matrixs), dtype=float)
+                res = matrix_1 @ matrix_2
+            return f"计算结果:{res}"
+        else:
+            return "不支持的操作"
+    except Exception as e:
+        return f"矩阵运算错误：{str(e)}"
 
 def get_response(messages):
     load_dotenv()
@@ -172,6 +174,7 @@ def call_with_messages():
         }
     ]
     first_response = get_response(messages)
+    print(first_response)
     assistant_output = first_response['output']['choices'][0]['message']
     messages.append(assistant_output)
 
@@ -214,12 +217,14 @@ def call_with_messages():
             first_matrix = args.get('first_matrix')
             second_matrix = args.get('second_matrix')
             operation = args.get('operation')
-            cal_result = matrix_operation(first_matrix, second_matrix, operation)
+            print(operation)
+            cal_result = matrix_operation(first_matrix,operation,second_matrix)
             tool_info = {
                 "name": "matrix_calculator",
                 "role": "tool",
                 "content": cal_result
             }
+            print(tool_info)
             messages.append(tool_info)
             user_prompt = {'content': "你是国立中央大学的高等代数教授，虽然你可能已经把相关知识都忘完了，但没关系，你有强大的学习能力和专业素养，可以结合工具给出的信息，回答user之前的提问，无需再次调用工具",
                 'role': 'system'}
