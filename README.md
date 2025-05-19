@@ -38,7 +38,6 @@
 ├── current_weather_3_ans.py # 天气查询,根据文档要求实现的最基础的三轮调用出结果，输出每轮结果
 ├── current_weather.py       # 天气查询简化版，两轮调用（直接输出最终回答，以下均同）
 ├── analyse_movie.py         # 电影问答
-├── analyse_movies.py
 ├── finance_analyse.py       # 股票查询
 ├── mathenatics.py           # 计算工具
 ├── movies.json              #电影信息文件
