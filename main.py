@@ -128,7 +128,7 @@ def call_with_messages():
             first_matrix = args.get('first_matrix')
             second_matrix = args.get('second_matrix')
             operation = args.get('operation')
-            cal_result = mathematics.matrix_operation(first_matrix, second_matrix, operation)
+            cal_result = mathematics.matrix_operation(first_matrix, operation,second_matrix )
             tool_info = {
                 "name": "matrix_calculator",
                 "role": "tool",
