@@ -25,17 +25,17 @@ tools=[
         "type":"function",
         "function":{
             "name":"analyse_movies'short_comments",
-            "description":"当你想要了解一部电影的影评的时候非常有用",
+            "description":"当你想要了解一部电影的影评或综合分析比较几部电影的影评的时候非常有用",
             "parameters":{
                 "type":"object",
                 "properties": {
-                    "movie_name":{
-                        "type":"string",
-                        "description":"电影的名称，如肖申克的救赎、霸王别姬等。"
+                    "movies_name":{
+                        "type":"list",
+                        "description":"列表元素为一个或多个电影的名称，如肖申克的救赎、霸王别姬等，每个名称为一个电影。"
                     }
                 }
             },
-            "required":["movie_name"]
+            "required":["movies_name"]
         }
     }
 ]
@@ -54,22 +54,20 @@ def get_movies(movies_name):
                     movieinfo.append(information)
         return movieinfo
 
-def get_short_comments(movie_name):
-    mark = 0
-    for i in range(30):
+def get_short_comments(movies_name):
+    comments = []
+    for i in range(0,30,3):
         with open(f"short_comments/comments{i + 1}.json", "r", encoding="utf-8") as f:
             info0 = json.load(f)
-        if movie_name in info0["comment1"]["movie_name"]:
-            mark = i+1
-            break
-    if mark==0:
-        return "数据库中暂无相关电影和短评，请根据你目前拥有的的知识回答，或提示用户暂无此电影的信息。"
-    else:
-        with open(f"short_comments/comments{mark + 1}.json", "r", encoding="utf-8") as f:
-            info1 = json.load(f)
-        with open(f"short_comments/comments{mark + 2}.json", "r", encoding="utf-8") as f:
-            info2 = json.load(f)
-        return str(info0) + str(info1) + str(info2)
+        for movie_name in movies_name:
+            if movie_name in info0["comment1"]["movie_name"]:
+                with open(f"short_comments/comments{i+2}.json", "r", encoding="utf-8") as f:
+                    info1 = json.load(f)
+                with open(f"short_comments/comments{i+3}.json", "r", encoding="utf-8") as f:
+                    info2 = json.load(f)
+                comments.append( str(info0) + str(info1) + str(info2))
+    return comments
+
 
 def get_response(messages):
     load_dotenv()
@@ -121,8 +119,8 @@ def call_with_messages():
 
     elif assistant_output['tool_calls'][0]['function']['name'] == "analyse_movies'short_comments":
         tool_info = {"name": "analyse_short_comments", "role": "tool"}
-        movie_name=json.loads(assistant_output['tool_calls'][0]['function']['arguments'])['movie_name']
-        tool_info['content'] = str(get_short_comments(movie_name))
+        movies_name=json.loads(assistant_output['tool_calls'][0]['function']['arguments'])['movies_name']
+        tool_info['content'] = str(get_short_comments(movies_name))
         messages.append(tool_info)
         user_prompt={'content':"你对电影的影评有着深刻的见解，现在请结合电影短评，回答user之前的提问,无需再次调用工具。",'role':'system'}
         messages.append(user_prompt)
