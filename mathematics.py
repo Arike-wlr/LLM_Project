@@ -208,7 +208,7 @@ def call_with_messages():
                 "content": cal_result
             }
             messages.append(tool_info)
-            user_prompt = {'content': "你是国立中央大学的数学分析教授，有强大的数学分析专业素养与能力，现在请结合工具给出的信息，回答user之前的提问，无需再次调用工具。",
+            user_prompt = {'content': "你是数学分析专家，有强大的数学分析专业素养与能力，现在请结合工具给出的信息，回答user之前的提问，无需再次调用工具。",
                        'role': 'system'}
 
         elif tool_call['function']['name'] == 'matrix_calculator':
@@ -225,7 +225,7 @@ def call_with_messages():
             }
             print(tool_info)
             messages.append(tool_info)
-            user_prompt = {'content': "你是国立中央大学的高等代数教授，虽然你可能已经把相关知识都忘完了，但没关系，你有强大的学习能力和专业素养，可以结合工具给出的信息，回答user之前的提问，无需再次调用工具",
+            user_prompt = {'content': "你是高等代数专家，你有强大的计算能力和专业素养，可以结合工具给出的信息，回答user之前的提问，无需再次调用工具",
                 'role': 'system'}
         messages.append(user_prompt)
         second_response = get_response(messages)
