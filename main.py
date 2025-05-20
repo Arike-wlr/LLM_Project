@@ -65,14 +65,14 @@ def call_with_messages():
 
     elif assistant_output['tool_calls'][0]['function']['name'] == 'analyse_movies':
         tool_info = {"name": "analyse_movies", "role": "tool"}
-        movie_name=analyse_movie.json.loads(assistant_output['tool_calls'][0]['function']['arguments'])['movie_name']
+        movie_name=analyse_movie.json.loads(assistant_output['tool_calls'][0]['function']['arguments'])['movies_name']
         tool_info['content'] = str(analyse_movie.get_movies(movie_name))
         messages.append(tool_info)
         user_prompt={'content':"你对电影有着深入的了解和深刻的见解，现在请结合电影信息，回答user之前的提问,无需再次调用工具。",'role':'system'}
 
     elif assistant_output['tool_calls'][0]['function']['name'] == "analyse_movies'short_comments":
         tool_info = {"name": "analyse_short_comments", "role": "tool"}
-        movie_name=analyse_movie.json.loads(assistant_output['tool_calls'][0]['function']['arguments'])['movie_name']
+        movie_name=analyse_movie.json.loads(assistant_output['tool_calls'][0]['function']['arguments'])['movies_name']
         tool_info['content'] = str(analyse_movie.get_short_comments(movie_name))
         messages.append(tool_info)
         user_prompt={'content':"你对电影的影评有着深刻的见解，现在请结合电影短评，回答user之前的提问,无需再次调用工具。",'role':'system'}
@@ -104,7 +104,7 @@ def call_with_messages():
                 "content":cal_result
             }
             messages.append(tool_info)
-            user_prompt = {'content': "你是个数学家，有强大的计算能力，现在请结合工具给出的信息，回答user之前的提问，无需再次调用工具。",
+            user_prompt = {'content': "现在请结合工具给出的信息，回答user之前的提问，无需再次调用工具。",
                        'role': 'system'}
 
         elif tool_call['function']['name'] == 'mathmatics_analyser':
